@@ -1,0 +1,32 @@
+name = "DifferentialGamesMARL"
+uuid = "c4ff17ee-0cc4-4049-b662-e318a6a24839"
+authors = ["BennetOutland <bennet.outland@pm.me> and contributors"]
+version = "0.1.0"
+
+[deps]
+CommonRLInterface = "d842c3ba-07a1-494f-bbec-f5741b0a3e98"
+DifferentialGamesBase = "a9dd1e63-b4ad-4579-bca8-3a609f3d87b9"
+DifferentialGamesBaseSolvers = "b83b0c57-42fa-43ab-a182-d5be40f43772"
+Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Optimisers = "3bd65402-5787-11e9-1adc-39752487f4e2"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+Serialization = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+
+[sources]
+DifferentialGamesBase = {url = "https://github.com/JuliaDifferentialGames/DifferentialGamesBase.jl", rev = "main"}
+DifferentialGamesBaseSolvers = {url = "https://github.com/JuliaDifferentialGames/DifferentialGamesBaseSolvers.jl", rev = "main"}
+
+[compat]
+DifferentialGamesBase = "0.1"
+Flux = "0.16.10"
+Optimisers = "0.4.7"
+Serialization = "1.11.0"
+julia = "1.10"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
