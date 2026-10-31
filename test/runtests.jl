@@ -170,6 +170,41 @@ using CommonRLInterface: reset!, act!, observe, terminated, actions
         end
     end
 
+    @testset "keep_away and physical_deception" begin
+        for (task, n_pairs) in ((keep_away, 2), (physical_deception, 1))
+            t = task()                                   # 2 agents + 1 adversary, 2 landmarks
+            @test t.game.n_players == 3
+            @test length(t.game.initial_state) == 12
+            @test length(t.game.shared_constraints) == n_pairs
+            @test t.goal == t.landmarks[t.target]
+
+            obs = t.obs_fn(t.game.initial_state)
+            @test length(unique(length.(obs))) == 1      # equal lengths: MADDPG relies on it
+            # information asymmetry: only the cooperating agents see the target
+            @test obs[1][5:6] == t.goal && obs[2][5:6] == t.goal
+            @test all(obs[3][5:6] .== 0)
+
+            env = MADDPGEnv(t.game; obs_fn = t.obs_fn, reset_fn = () -> t.sample_start())
+            reset!(env)
+            while !terminated(env)
+                r = act!(env, zeros(joint_control_dim(env)))
+                @test length(r) == 3
+            end
+        end
+
+        # costs follow the particle environment: the adversary pays its own distance to the target,
+        # the agents pay their distance minus the adversary's (keep-away) or the best agent's (deception)
+        ka = keep_away(); x = ka.game.initial_state
+        d(a) = hypot(x[4a-3] - ka.goal[1], x[4a-2] - ka.goal[2])
+        stage(i) = ka.game.objectives[i].stage_cost.func(x, zeros(6), nothing, 0.0)
+        @test stage(3) ≈ d(3)
+        @test stage(1) ≈ d(1) - d(3)
+        pd = physical_deception(); x = pd.game.initial_state
+        dd(a) = hypot(x[4a-3] - pd.goal[1], x[4a-2] - pd.goal[2])
+        @test pd.game.objectives[1].stage_cost.func(x, zeros(6), nothing, 0.0) ≈ min(dd(1), dd(2)) - dd(3)
+        @test physical_deception(n_agents = 4, n_landmarks = 4).game.n_players == 5
+    end
+
     @testset "polygon obstacle geometry" begin
         sq = polygon_obstacle([[0.0,0.0],[1.0,0.0],[1.0,1.0],[0.0,1.0]])
         @test clearance(sq, [0.5, 0.5]) ≈ -0.5        # inside

@@ -1,5 +1,7 @@
 # DifferentialGamesMARL
 
+<p align="center"><img src="https://raw.githubusercontent.com/JuliaDifferentialGames/DifferentialGames.jl/main/docs/src/assets/logo.png" alt="DifferentialGames.jl logo" width="160"></p>
+
 Multi-agent reinforcement learning for the [DifferentialGames.jl](https://github.com/JuliaDifferentialGames) ecosystem.
 
 Provides a MADDPG solver and `CommonRLInterface` environments wrapping
@@ -20,7 +22,7 @@ multi-agent RL algorithms, training loops, and RL-environment wrappers live.
   optional state projection, and explicit `discrete_dynamics`/`cost_state`
   flags so both continuous-time and already-discrete (`LinearDynamics`)
   games can be used as training environments without ambiguity.
-- `cooperative_navigation`/`predator_prey` — benchmark multi-agent tasks.
+- `cooperative_navigation`/`predator_prey`/`keep_away`/`physical_deception` — the multi-agent particle tasks of the MADDPG paper (cooperative and competitive). The two communication tasks of the paper are not implemented (no message channel).
 - `Agent`/`ReplayBuffer`/`MADDPGSolver`/`train!` — the MADDPG learner.
 - `LocalGameSolver`/`solve_local`/`build_guidance`/`gps_builder` — guided
   policy search: a local LQ solve (via `DifferentialGamesBaseSolvers.FNELQ`)
