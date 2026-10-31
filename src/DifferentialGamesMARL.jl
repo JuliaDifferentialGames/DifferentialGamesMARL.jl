@@ -17,6 +17,7 @@
 #   obstacles.jl                polygon obstacle geometry
 #   cooperative_navigation.jl  benchmark task as a GameProblem
 #   predator_prey.jl           benchmark task as a GameProblem
+#   target_adversary.jl        keep-away and physical-deception tasks
 #   networks.jl                actor and critic network builders (Flux)
 #   replay_buffer.jl           shared experience replay
 #   agent.jl                   per-agent networks + the MADDPG update step
@@ -56,7 +57,7 @@ using DifferentialGamesBase:
 import DifferentialGamesBase
 
 # Environment + tasks
-export MADDPGEnv, cooperative_navigation, predator_prey, reset_to!
+export MADDPGEnv, cooperative_navigation, predator_prey, keep_away, physical_deception, reset_to!
 
 # Polygon obstacles
 export ConvexObstacle, polygon_obstacle, rectangle_obstacle,
@@ -81,6 +82,7 @@ include("environment.jl")
 include("obstacles.jl")
 include("cooperative_navigation.jl")
 include("predator_prey.jl")
+include("target_adversary.jl")
 include("networks.jl")
 include("replay_buffer.jl")
 include("agent.jl")
